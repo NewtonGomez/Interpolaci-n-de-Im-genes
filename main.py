@@ -61,12 +61,12 @@ def browse_files(path: str, set_name) -> None:
                     tipo_nombre = interpolation_func.__name__
                     print(f"Error al procesar {tipo_nombre} en {file}: {e}")
 
-            cv2.imshow("./img/sets/gray_images/bird.tif original", og_image)
-            cv2.imshow("./img/sets/gray_images/bird.tif reducida", rc_image)
-            cv2.imshow("./img/sets/gray_images/bird.tif interpolada", ip_image)
-            cv2.waitKey(0)
-            cv2.destroyAllWindows()
-            break
+            #cv2.imshow("./img/sets/gray_images/bird.tif original", og_image)
+            #cv2.imshow("./img/sets/gray_images/bird.tif reducida", rc_image)
+            #cv2.imshow("./img/sets/gray_images/bird.tif interpolada", ip_image)
+            #cv2.waitKey(0)
+            #cv2.destroyAllWindows()
+            
     
     finally:
         print("\n=== PROMEDIOS FINALES ===")
@@ -88,4 +88,4 @@ def browse_files(path: str, set_name) -> None:
 
 if __name__ == "__main__":
     browse_files("./img/sets/color_images/", "color") 
-    browse_files("./img/sets/gray_images/", "gray")
+    #browse_files("./img/sets/gray_images/", "gray")
