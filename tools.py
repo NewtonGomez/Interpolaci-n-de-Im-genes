@@ -35,14 +35,15 @@ def generate_base_image(rc_image:np.ndarray, info:tuple) -> np.ndarray:
     return new_img
 
 def comparar_error(original: np.ndarray, interpolated: np.ndarray) -> float:
-    def calc_inf_norm(matrix:np.ndarray) -> float:
-        abs_matrix = np.abs(matrix)
-        row_sums = np.sum(abs_matrix, axis=1)
-        return np.max(row_sums)
+    def calc_l2_norm(matrix: np.ndarray) -> float:
+        return np.sqrt(np.sum(np.square(matrix)))
+
     if original.shape != interpolated.shape:
+        print("Las imagenes no tienen el mismo")
+        print(original.shape, interpolated.shape)
         return 0.00
-    
-    er_matrix = (calc_inf_norm(original - interpolated)/calc_inf_norm(original))*100
-    print(f"Error de la interpolacion es: {er_matrix:.2f}%")
+
+    er_matrix = (calc_l2_norm(original - interpolated) / calc_l2_norm(original)) * 100
+    print(f"Error de la interpolación (norma euclidiana) es: {er_matrix:.2f}%")
 
     return er_matrix

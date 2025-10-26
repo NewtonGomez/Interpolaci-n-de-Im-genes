@@ -1,4 +1,5 @@
 from local_lagrange import local_lagrange_bilinear_model
+from global_lagrange import global_lagrange_model
 from randomize import randomize_model
 from tools import reduce_image, calc_time, comparar_error, show_image
 import os
@@ -25,9 +26,9 @@ def browse_files(path: str, set_name) -> None:
             cv2.imwrite(f"./img/originals/{png_filename}", og_image)
 
             methods_to_run = [
-                local_lagrange_bilinear_model,
-                #global_lagrange_bilinear_model,
-                randomize_model    
+                #local_lagrange_bilinear_model,
+                global_lagrange_model,
+                #randomize_model    
             ]
             
             for interpolation_func in methods_to_run:
@@ -59,6 +60,13 @@ def browse_files(path: str, set_name) -> None:
                 except Exception as e:
                     tipo_nombre = interpolation_func.__name__
                     print(f"Error al procesar {tipo_nombre} en {file}: {e}")
+
+            cv2.imshow("./img/sets/gray_images/bird.tif original", og_image)
+            cv2.imshow("./img/sets/gray_images/bird.tif reducida", rc_image)
+            cv2.imshow("./img/sets/gray_images/bird.tif interpolada", ip_image)
+            cv2.waitKey(0)
+            cv2.destroyAllWindows()
+            break
     
     finally:
         print("\n=== PROMEDIOS FINALES ===")

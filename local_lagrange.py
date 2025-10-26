@@ -38,3 +38,27 @@ def local_lagrange_bilinear_model(reduced_image:np.ndarray, info:list) -> np.nda
                 interpolated_image[row, col, channel] = interpolated_value
 
     return np.clip(interpolated_image, 0, 255).astype(np.uint8)
+
+if __name__ == "__main__":
+    import cv2
+    import tools
+
+    path = "./img/sets/gray_images/bird.tif"
+    og_img = cv2.imread(path)
+    rc_img, size = tools.reduce_image(og_img)
+    information: list = [f"{path} reducida", size]
+
+    ip_image, exec_time, tipo = local_lagrange_bilinear_model(rc_img, [f"{path} reducida", size])
+    
+    # 3. Guardamos los arrays 2D (¡esto sí funciona!)
+    img_gris = cv2.cvtColor(rc_img, cv2.COLOR_BGR2GRAY)
+    np.savetxt('rc_image_rgb.csv', img_gris, delimiter=',', fmt='%d')
+
+    _ = tools.comparar_error(og_img, ip_image)
+
+    cv2.imshow(f"{path} original", og_img)
+    cv2.imshow(f"{path} reducida", rc_img)
+    cv2.imshow(f"{path} interpolada", ip_image)
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
