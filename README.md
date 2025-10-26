@@ -141,4 +141,10 @@ Estos valores se analizaron posteriormente y se incluyeron en los reportes del d
 
 ---
 
+## 👥 Coautoría
+
+**Autores principales:**
+- Enrique Gomez 
+- Juan Carlos Ramos
+- Victoria Galvan
 > Proyecto desarrollado como parte de los estudios de Métodos Numéricos — *Universidad Autónoma de Aguascalientes*
