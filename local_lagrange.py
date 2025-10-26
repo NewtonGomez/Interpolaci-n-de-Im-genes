@@ -50,7 +50,6 @@ if __name__ == "__main__":
 
     ip_image, exec_time, tipo = local_lagrange_bilinear_model(rc_img, [f"{path} reducida", size])
     
-    # 3. Guardamos los arrays 2D (¡esto sí funciona!)
     img_gris = cv2.cvtColor(rc_img, cv2.COLOR_BGR2GRAY)
     np.savetxt('rc_image_rgb.csv', img_gris, delimiter=',', fmt='%d')
 

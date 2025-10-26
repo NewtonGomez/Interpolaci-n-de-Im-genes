@@ -1,7 +1,6 @@
 *.txt
 /img/interpolated/
 /img/originals/
-/img/sets/
 *.zip
 __pycache__/
 *.DS_Store

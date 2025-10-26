@@ -112,6 +112,7 @@ def global_lagrange_model(A_orig:np.ndarray, info) -> np.ndarray:
     else:
         A = LagraY @ A_work @ LagraX.T
 
+    A = np.nan_to_num(A, copy=False, nan=0.0, posinf=255.0, neginf=0.0)
     A = np.clip(A, 0.0, 255.0).astype(np.uint8)
 
     return A

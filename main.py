@@ -23,12 +23,12 @@ def browse_files(path: str, set_name) -> None:
             
             png_filename = file.replace(".tif", ".png")
             
-            cv2.imwrite(f"./img/originals/{png_filename}", og_image)
+            #cv2.imwrite(f"./img/originals/{png_filename}", og_image)
 
             methods_to_run = [
-                #local_lagrange_bilinear_model,
+                local_lagrange_bilinear_model,
                 global_lagrange_model,
-                #randomize_model    
+                randomize_model    
             ]
             
             for interpolation_func in methods_to_run:
@@ -47,7 +47,7 @@ def browse_files(path: str, set_name) -> None:
                     os.makedirs(output_dir, exist_ok=True)
                     
                     output_path = f"{output_dir}{png_filename}"
-                    cv2.imwrite(output_path, ip_image)
+                    #cv2.imwrite(output_path, ip_image)
 
                     err = comparar_error(og_image, ip_image)
                     errors_by_type[tipo_upper].append(err)
@@ -88,4 +88,4 @@ def browse_files(path: str, set_name) -> None:
 
 if __name__ == "__main__":
     browse_files("./img/sets/color_images/", "color") 
-    #browse_files("./img/sets/gray_images/", "gray")
+    browse_files("./img/sets/gray_images/", "gray")
