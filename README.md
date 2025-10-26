@@ -1,97 +1,144 @@
-# Proyecto: Interpolación de Imágenes (Métodos de Lagrange y Aleatorio)
+# 🧮 Proyecto: Interpolación de Imágenes  
+### *(Métodos de Lagrange y Método Aleatorio)*
 
-Este repositorio contiene un proyecto de métodos numéricos aplicados a interpolación de imágenes. Implementa y compara varios métodos de interpolación (Lagrange global, Lagrange local bilineal y un método aleatorio) sobre imágenes en color y en gris. Además incluye herramientas para reducir resolución, calcular errores y registrar tiempos de ejecución.
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python&logoColor=white)
+![Status](https://img.shields.io/badge/Estado-Activo-success)
+![License](https://img.shields.io/badge/Licencia-Acad%C3%A9mica-lightgrey)
 
-## Contenido principal
+> Proyecto de métodos numéricos aplicados a **interpolación de imágenes**.  
+> Compara distintos enfoques: **Lagrange Global**, **Lagrange Local Bilineal** y un **método Aleatorio de referencia**, evaluando su precisión y eficiencia computacional tanto en imágenes **a color** como **en escala de grises**.
 
-- `main.py` - Script principal; recorre imágenes en `img/sets/` (color y gris), reduce su tamaño, ejecuta los métodos de interpolación y escribe logs en `logs/`.
-- `global_lagrange.py` - Implementación del modelo de Lagrange global.
-- `local_lagrange.py` - Implementación del modelo local (bilineal Lagrange).
-- `randomize.py` - Implementación del método aleatorio de interpolación.
-- `tools.py` - Utilidades: reducción de imagen, cálculo de tiempo, comparación de error, visualización.
-- `generate_reduce_img.py` - (herramienta auxiliar) — generación/reducción de imágenes (si aplica).
+---
 
-## Estructura de carpetas
+## 📂 Estructura del Repositorio
 
-- `img/`
-  - `sets/` - Conjuntos de imágenes de entrada
-    - `color_images/` - imágenes en color usadas por el script
-    - `gray_images/` - imágenes en escala de grises usadas por el script
-  - `interpolated/` - Salida de las imágenes interpoladas (por método)
-  - `originals/` - (opcional) imágenes originales
-  - `reduced/` - (opcional) versiones reducidas
+```bash
+├── main.py                   # Script principal del proyecto
+├── global_lagrange.py        # Implementación del modelo de Lagrange global
+├── local_lagrange.py         # Implementación del modelo bilineal Lagrange local
+├── randomize.py              # Método aleatorio (referencia)
+├── tools.py                  # Funciones auxiliares (reducción, error, temporizador)
+├── generate_reduce_img.py    # Herramienta auxiliar de reducción (opcional)
+│
+├── img/
+│   ├── sets/
+│   │   ├── color_images/     # Imágenes en color de entrada
+│   │   └── gray_images/      # Imágenes en escala de grises
+│   ├── interpolated/         # Resultados generados por método
+│   ├── originals/            # (opcional) Imágenes originales
+│   └── reduced/              # (opcional) Imágenes reducidas
+│
+├── logs/                     # Archivos de registro por método y set
+│   └── log_<metodo>_<set>.txt
+│
+└── md/                       # Documentación técnica (Markdown)
+    ├── 1_0_origen.md
+    ├── 2_1_Mbilineal.md
+    ├── 2_2_MBicubico.md
+    ├── 2_3_MAleatorio.md
+    ├── 2_5_CComputacional.md
+    └── 3_1MBilinealLagrange.md
+```
 
-- `logs/` - Archivos de log generados por cada método, p. ej. `log_global_lagrange_model_color.txt`.
-- `md/` - Documentación del proyecto y notas: contiene varios documentos explicativos sobre los métodos y resultados (por ejemplo `1_0_origen.md`, `2_1_Mbilineal.md`, `2_2_MBicubico.md`, `2_3_MAleatorio.md`, `2_5_CComputacional.md`, `3_1MBilinealLagrange.md`).
+---
 
-## Requisitos
+## ⚙️ Requisitos Técnicos
 
-- Python 3.7+ (recomendado 3.8+)
-- Paquetes principales:
-  - numpy
-  - opencv-python
+- **Python 3.8+**  
+- Librerías necesarias:
+  numpy>=1.21.0
+  opencv>=4.5.5
+  ```bash
+  pip install numpy opencv-python
+  ```
 
+---
 
-## Cómo ejecutar
+## 🚀 Ejecución del Proyecto
 
-El script principal es `main.py`. Por defecto (cuando se ejecuta como script) realiza lo siguiente:
+El script principal es `main.py`, que coordina todo el flujo:
 
-- Recorre `./img/sets/color_images/` y `./img/sets/gray_images/`.
-- Para cada imagen, la reduce (función `reduce_image` en `tools.py`).
-- Ejecuta, en orden, los métodos:
-  1. `local_lagrange_bilinear_model`
-  2. `global_lagrange_model`
-  3. `randomize_model`
-- Registra tiempo de ejecución y error de interpolación en `logs/`.
+1. Recorre las carpetas de imágenes (`color_images` y `gray_images`).
+2. Reduce cada imagen usando `tools.reduce_image()`.
+3. Ejecuta los tres modelos de interpolación:
+   - `local_lagrange_bilinear_model`
+   - `global_lagrange_model`
+   - `randomize_model`
+4. Registra **errores y tiempos de ejecución** en los logs (`logs/`).
 
-Ejecutar:
+### Comando de ejecución
 
 ```bash
 python3 main.py
 ```
 
-Notas:
-- `main.py` llama a `browse_files(path, set_name)` y crea logs en `./logs/log_<metodo>_<set>.txt`.
-- Los resultados de interpolación se guardan (o están preparados para guardarse) en `img/interpolated/<metodo>/`.
+> 📘 Los resultados se almacenan en `logs/` y las imágenes interpoladas en `img/interpolated/`.
 
-## Qué hace cada script / módulo
+---
 
-- `tools.py`:
-  - `reduce_image(image)` -> devuelve la imagen reducida (cada 2 píxeles) y su tamaño.
-  - `comparar_error(original, interpolated)` -> calcula error mediante norma L2 relativa y lo imprime.
-  - `calc_time` -> decorador para medir tiempos de ejecución.
+## 🧠 Descripción de Módulos
 
-- `main.py`:
-  - Orquesta el flujo: lectura de archivos, reducción, aplicación de métodos y escritura de logs.
+| Módulo | Función principal |
+|--------|-------------------|
+| **main.py** | Controla el flujo de procesamiento y escritura de logs. |
+| **tools.py** | Utilidades de reducción, cálculo de error y medición de tiempo. |
+| **global_lagrange.py** | Interpolación **global polinómica** en toda la imagen. |
+| **local_lagrange.py** | Interpolación **bilineal por regiones locales**, más eficiente. |
+| **randomize.py** | Modelo **no determinista** de referencia para análisis comparativo. |
 
-- Modelos (`global_lagrange.py`, `local_lagrange.py`, `randomize.py`):
-  - Cada módulo expone una función que toma la imagen reducida y la información (tupla) y debe devolver la imagen interpolada, tiempo de ejecución y un identificador del tipo (según convención en el código).
+---
 
-## Logs y resultados
+## 📊 Resultados y Logs
 
-- Los logs se almacenan en `logs/` y contienen, para cada archivo procesado: nombre, tiempo de ejecución y error calculado.
-- Al final, `main.py` imprime un promedio de errores por método.
+Los resultados se almacenan en `logs/` con formato:
 
-## Documentación adicional
+```
+Archivo: ./img/sets/color_images/lena3.tif
+	Tiempo: 0.08s
+	Error: 99.03%
+```
 
-La carpeta `md/` contiene documentación y apuntes del proyecto, entre ellos:
+Al final de cada log se calcula el **promedio de errores** por método.  
+Estos valores se analizaron posteriormente y se incluyeron en los reportes del directorio `md/`.
 
-- `1_0_origen.md` — origen del proyecto y objetivos.
-- `2_1_Mbilineal.md`, `2_2_MBicubico.md`, `2_3_MAleatorio.md` — explicaciones de los métodos de interpolación.
-- `2_5_CComputacional.md` — consideraciones computacionales.
-- `3_1MBilinealLagrange.md` — detalles del método bilineal Lagrange local.
+---
 
-Revisa esos archivos para mayor contexto teórico y decisiones experimentales.
+## 📘 Documentación del Proyecto
 
-## Buenas prácticas y notas
+> Todos los reportes están disponibles en la carpeta `md/`, convertidos desde LaTeX a Markdown.
 
-- Si trabajas con muchas imágenes, considera ajustar la forma en que se guardan/visualizan para evitar saturar memoria.
-- Añadir un `requirements.txt` y/o un pequeño script de setup facilitará replicar el entorno.
+| Archivo | Descripción |
+|----------|--------------|
+| `1_0_origen.md` | Introducción y objetivos del proyecto. |
+| `2_1_Mbilineal.md` | Modelo bilineal de interpolación. |
+| `2_2_MBicubico.md` | Comparativa con interpolación cúbica. |
+| `2_3_MAleatorio.md` | Método aleatorio de referencia. |
+| `2_5_CComputacional.md` | Análisis de complejidad y desempeño. |
+| `3_1MBilinealLagrange.md` | Estudio del modelo Lagrange local. |
 
-## Próximos pasos sugeridos
+---
 
-- Añadir un `requirements.txt` o `pyproject.toml`.
-- Crear un script CLI (opciones con `argparse`) para seleccionar carpetas de entrada, métodos a ejecutar y activar/desactivar guardado de imágenes.
-- Añadir algunos tests unitarios para `tools.py` (p. ej. `comparar_error`, `reduce_image`).
+## 🧩 Consideraciones Técnicas
 
+- Los errores se calculan mediante **norma L2 relativa**.
+- Los tiempos de ejecución se miden con decoradores (`@calc_time`).
+- El proyecto está diseñado para comparar **fidelidad vs. costo computacional**.
+- Los logs sirven como base para tablas y gráficas de rendimiento.
 
+---
+
+## 🔬 Objetivo Académico
+
+> Este proyecto busca demostrar la aplicabilidad de los **métodos de interpolación de Lagrange** en el procesamiento digital de imágenes, evaluando su precisión y eficiencia frente a métodos aleatorios o locales.
+
+---
+
+## 🏁 Próximos pasos
+
+- Incorporar **visualización gráfica automática** de errores y tiempos.
+- Agregar soporte para **interpolación cúbica y spline bicúbico**.
+- Publicar resultados y comparativas en notebooks (`.ipynb`).
+
+---
+
+> Proyecto desarrollado como parte de los estudios de Métodos Numéricos — *Universidad Autónoma de Aguascalientes*
