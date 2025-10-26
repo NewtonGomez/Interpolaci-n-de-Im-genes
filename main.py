@@ -38,7 +38,7 @@ def browse_files(path: str, set_name) -> None:
                     tipo_lower = tipo.lower()
 
                     if tipo_upper not in log_file_handles:
-                        log_filename = f"log_{tipo_lower}_{set_name}.txt"
+                        log_filename = f"./logs/log_{tipo_lower}_{set_name}.txt"
                         print(f"Creando log: {log_filename}")
                         log_file_handles[tipo_upper] = open(log_filename, "w")
                         log_file_handles[tipo_upper].write(f"--- LOG DE INTERPOLACIÓN: {tipo_upper} ({set_name}) ---\n\n")
